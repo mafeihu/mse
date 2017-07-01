@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta charset="UTF-8">
+    <title>疯狂地产</title>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/share.css"/>
+    <script src="js/pulice.js"></script>
+</head>
+<body>
+<!-- 播放器 -->
+<script src="player/sewise.player.min.js"></script>
+<div id="Player"></div>
+<script>
+    SewisePlayer.setup({
+        server: 'vod',
+        type: 'm3u8',
+        autostart: 'true',    /*是否自动播放*/
+        poster: "",    /*此处可填写封面地址*/
+        videourl: "http://pili-live-hls.tstmobile.com/vxiu1/php-sdk-test1487412301.m3u8",    /*此处填写购买获取到的m3u8地址 必填*/
+        skin: 'vodOrange',
+        title: '梁毅',
+        claritybutton: 'disable',
+        lang: 'zh_CN'
+    },'Player');
+</script>
+<!-- 内容 -->
+<div class="messages">
+    <div class="message">
+        <img class="anchor_img" src="4.jpg" alt=""/>
+        <div class="anchor_message">
+            <p class="anchor_names">
+                <span class="anchor_name">胡如珊</span>
+                <span class="follow"></span>
+            </p>
+            <p class="anchor_remarks">恩如设计研究室负责人</p>
+        </div>
+    </div>
+    <p class="room_num">ID: 489823</p>
+</div>
+<div class="bottombtn">
+    <div class="w2h2 information"></div>
+    <div class="w2h2 gift"></div>
+    <div class="w2h2 report"></div>
+    <div class="download">
+        <a href="">用疯狂地产APP查看</a>
+    </div>
+</div>
+</body>
+</html>

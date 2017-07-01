@@ -1,0 +1,24 @@
+.topback{width:100%;height:16rem;position:relative;}
+.topback img{width:100%;height:100%;}
+.news_tit{margin:1.5rem 0;padding:0 1rem;box-sizing:border-box;overflow:hidden;}
+.news_tit h1{font-size:1.5rem;margin-bottom:1.5rem;line-height:2rem;}
+.label{float:left;font-size: 1rem;color: #A7ADB4;}
+.nums{float:left;margin-left:1.5rem;padding-left:1.2rem;background:url("../icon/icon_view@2x.png") no-repeat center left;background-size:1rem 0.7rem;font-size: 0.9rem;color: #A7ADB4;}
+.source{position:absolute;right: 1rem;bottom: 0.5rem;border-radius: 7rem;background: rgba(255,255,255,.8);padding: 0.3rem 0.5rem;font-size: 1rem;}
+.news_con{padding: 0 1rem;}
+
+.related_reading{overflow:hidden;background:#F3F6F9;width:100%;color:#292F36;font-size:1.2rem;}
+.links{height:5rem;line-height:5rem;padding:0 1.5rem;background:#fff;display:block;}
+.related_tit{height:4rem;padding:0 1.5rem;line-height:4rem;text-align: center}
+.related_lists{overflow:hidden;background:#fff;width:100%;}
+.related_contents{height:9.8rem;padding:0 1rem;padding-top:1.3rem;overflow:hidden;box-shadow: inset 0 -1px 0 0 #F3F6F9;}
+.related_contents_l{float:left;position:relative;height:8.3rem;width:50%;}
+.related_contents_tit{font-size:1.4rem;line-height:1.7rem;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient:vertical;}
+.related_contents_date{color:#A7ADB4;font-size:1rem;line-height:1rem;margin-top:0.8rem;}
+.related_contents_details{position:absolute;bottom:0;left:0;color:#A7ADB4;line-height:1.6rem;}
+.reading_tag{font-size:1rem;display:block;float:left;}
+.reading_nums{font-size:0.9rem;display:block;float:left;margin-left:1rem;padding-left:2rem;background:url("../icon/icon_view@2x.png") no-repeat center left;background-size:1.5rem;}
+.comment_nums{font-size:0.9rem;display:block;float:left;margin-left:1rem;padding-left:2rem;background:url("../icon/icon_comment_small@2x.png") no-repeat center left;background-size:1.4rem 1rem;}
+.related_contents_r{float:right;width:45%;}
+.related_contents_r img{width:100%;height:8.3rem;border-radius:5px}
+/*width:13.75rem*/

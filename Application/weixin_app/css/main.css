@@ -1,0 +1,16 @@
+body{font-size: 0.24rem;background:#f3f4f4;}
+.wrapper{width: 100%;overflow: hidden;min-height: 100%;}
+/*直播列表*/
+.liveListTxIcon{bottom: 0;right: 0;width:0.36rem;height: 0.36rem;background:url(../icon/icon_vip@2x.png) no-repeat;background-size: cover;}
+.liveListInfoIcon{width: 0.36rem;height: 0.36rem;background:url(../icon/icon_man@2x.png) no-repeat;background-size: cover;}
+.liveListImg{height: 7.5rem;}
+.ListliveStart{top: 0.32rem;right: 0.32rem;width: 1.12rem;height: 0.46rem;background:url(../icon/btn_syzb@2x.png) no-repeat;background-size: cover;}
+.liveListTit{bottom: 0.3rem;left: 0.3rem;}
+/*直播间*/
+.liveVideo{height: 4.2rem;}
+.anchorInfo{width: 80%;}
+.liveWatch{background:url(../icon/zb_look@2x.png) no-repeat;background-size: 0.44rem 0.26rem;background-position: left;}
+.tabList{width: 33.3%;height: 100%;padding-bottom: 0.04rem;}
+.tabListAct{border-bottom: 0.04rem solid #0097E2;color:#0097E2;}
+.giftBtn{background:url(../icon/songliwu@2x.png) no-repeat;background-size: cover;}
+.commentBox{width:4.92rem;height: 0.6rem;border-bottom: 0.04rem solid #9d9d9d; }

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta charset="UTF-8">
+    <title>梅塞尔</title>
+    <link rel="stylesheet" href="__PUBLIC__/share_live/css/reset.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/share_live/css/share.css"/>
+    <script src="__PUBLIC__/share_live/js/pulice.js"></script>
+</head>
+<body>
+<video id="Player" controls>
+    <source src="{$live.url}"  type="video/mp4">
+    <source src="{$live.url}"  type="video/ogg">
+    您的浏览器不支持 HTML5 video 标签。
+</video>
+<!-- 内容 -->
+<!--<div class="messages">-->
+    <!--<div class="message">-->
+        <!--<img class="anchor_img" src="{$live.img}" alt=""/>-->
+        <!--<div class="anchor_message">-->
+            <!--<p class="anchor_names">-->
+                <!--<span class="anchor_name">{$live.username}</span>-->
+                <!--<span class="follow"></span>-->
+            <!--</p>-->
+            <!--<p class="anchor_remarks">{$live.company}{$live.duty}</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<p class="room_num">ID: {$live.id}</p>-->
+<!--</div>-->
+<div class="bottombtn" style="bottom: 3.8rem;">
+    <div class="w2h2 information"></div>
+    <div class="w2h2 gift"></div>
+    <div class="w2h2 report"></div>
+    <div class="download">
+        <a href="">用梅塞尔公众号查看</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+body,html,div,p,ul,li,h1,h2,h3,h4,h5,h6,span,a,input,img{margin:0;padding:0;list-style:none;border:0;}
+a{text-decoration:none;color:#ccc;}
+body{font-family:'微软雅黑';background:#fff;}
+header{width:100%;height:130px;}
+header .head{width:1200px;margin:0 auto;overflow: hidden;}
+.head_l{float:left;overflow:hidden;}
+.headimg{float:left;height:130px;}
+.headimg img{;height:100%;}
+.headtext{margin-left:25px;font-size:20px;line-height:30px;height:60px;margin-top:35px;padding-left:10px;border-left:1px solid #eee;font-family:"楷体";float:left;}
+.head_r{float:right;height:110px;}
+.head_r img{height:100%;margin-top:20px;}
+.banner{width:100%;}
+.banner img{width:100%;}
+.dows{width:100%;height:400px;}
+.dows div{width:1240px;height:400px;margin:0 auto;}
+.dows ul{overflow:hidden;}
+.dows ul li{float:left;box-shadow:0 0 57px 20px #eee;width:386px;height:320px;margin:40px 10px;}
+.dows ul li.ios{background:url("../image/ios.png") no-repeat center;background-size:100%;}
+.dows ul li.Android{background:url("../image/Android.png") no-repeat center;background-size:100%;}
+.dows ul li.erweima{background:url("../image/erweima.png") no-repeat center;background-size:100%;}
+.dows ul li a{display:block;margin:0 auto;width:320px;height:50px;margin-top:230px;background:url("../image/xiazai-normal.png") no-repeat center;}
+.dows ul li a:hover{background:url("../image/xiazai-selected.png") no-repeat center;}
+.introduce{width:100%;overflow: hidden;}
+.introduce div{width:1200px;margin:0 auto;}
+.introduce div img{width:1200px;}
+.footimg{width:100%;overflow: hidden;margin-bottom:65px;}
+.footimg img{width:100%;}
+.forders{width:100%;height:200px;background:#f0f0f0;}
+.forder{width:1200px;height:200px;margin:0 auto;color:#999;font-size:14px;}
+.forder a{color:#999;font-size:14px;}
+.forder_l{float:left;margin-top:35px;}
+.forder_l p{margin-bottom:20px;}
+.forder_l .ly{margin-left:20px;}
+.forder_r{float:right;margin-top:35px;text-align:right}
+.forder_r .phone{margin-right:20px;}
+.forder_r .web{margin-right:20px;}
+.forder_r p{margin-bottom:20px;}
+.forder_r .telephone{color:#c33c3c;font-size:16px;}

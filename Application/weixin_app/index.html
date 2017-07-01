@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />	
+	<title>梅塞尔直播</title>
+	<!--初始化样式表-->
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<!--公共样式表-->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!--主样式表-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--rem单位js-->
+	<script type="text/javascript">
+		(function (doc, win) {
+		    var docEl = doc.documentElement,
+		        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+		        recalc = function () {
+		            var clientWidth = docEl.clientWidth;
+		            if (!clientWidth) return;
+		            if(clientWidth>=640){
+		                docEl.style.fontSize = '100px';
+		            }else{
+		                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px'; // iphone6
+		        }
+		    };
+		    if(!doc.addEventListener) return;
+		    win.addEventListener(resizeEvt, recalc, false);
+		    doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
+	</script>
+	<!--jquery-->
+	<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
+	<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>	
+</head>
+<body ng-controller="mainCtrl">
+	<div ng-view></div>
+	<!--angular-->
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-cookies.min.js"></script>
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-route.min.js"></script>
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-touch.min.js"></script>
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-animate.min.js"></script>
+	<!--环信-->
+	<!-- <script src="js/hx/webim.config.js"></script>
+	<script src="js/hx/strophe-1.2.8.min.js"></script>
+	<script src='js/hx/websdk-1.4.10.js'></script> -->
+	<!--导入/引入自己写的-->
+	<script src="js/router.js"></script>
+	<script src="js/main.js"></script>	
+</body>
+</html>

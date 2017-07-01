@@ -1,0 +1,26 @@
+/* CSS Document */
+body{font-family:'����';text-align:center;padding:0;font-size:12px;line-height:22px;width:880px;margin:0 auto; background:url(../images/login_bj.jpg) repeat-x top center;}
+body > div{text-align:left;margin-right:auto;margin-left:auto;} 
+div,form,ul,ol,li,span,dl,dt,dd{margin:0;padding:0;border:0;text-align:left;}
+img,a img,p{border:0;margin:0;padding:0;}
+h1,h2,h3,h4{margin:0;padding:0;}
+ul,ol,li{list-style:none;text-align:left;}
+table,td,input{font-size:12px}
+img{vertical-align:middle;}
+/* Ĭ��������ɫ */
+a{outline-style:none;color:#636362;text-decoration:none}
+a:hover{color:#CC0033}
+/* ͨ������ */
+.left{float:left;}
+.right{float:right;}
+.clear{clear:both;font-size:1px;width:1px;visibility:hidden;margin-top:0px!important;*margin-top:-1px;line-height:0}/*ie and firefox1.5 updata */
+
+
+.login_dl{ margin-top:185px;}
+.login_dl dd{ overflow:hidden;zoom:1;width:262px; margin:0 auto; height:109px; font-size:12px; color:#fff; padding: 40px 0 0 150px;background:url(../images/login_dd.jpg) no-repeat left bottom;}
+.login_dl dd input{ vertical-align:middle;height:16px; border:1px solid #C5D6E8; line-height:16px; font-size:12px; color:#666666; background:#fff;width:142px;}
+.login_dl li.yzm input{width:70px; margin-right:10px;}
+.login_dl dd li{ margin-bottom:10px;}
+.login_dl dd span{ display:block;width:60px; float:left;}
+.login_dl dt{ padding-left:500px; line-height:38px; height:110px; background:url(../images/login_dt.jpg) no-repeat center top;}
+.login_dl dt a{ color:#FFFF00;}
