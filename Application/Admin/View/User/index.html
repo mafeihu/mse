@@ -46,7 +46,6 @@ function sendname() {
 </span>
 
 </div>
-
 <div class="content">
 
 <!-----------------------------------------内容开始--------------------------------------------------->
@@ -78,18 +77,49 @@ function sendname() {
 		 <if condition="$l.type eq 2">
              |<a href="{:U('toadd',array('id'=>$l['user_id']))}">编辑</a> |
              <a href="{:U('details',array('id'=>$l['user_id']))}">详情</a> |
-             <a href="{:U('zhibo',array('id'=>$l['user_id']))}">开始直播</a>
+             <a href="javascript:void(0); onclick=clickget({$l['user_id']});">开始直播</a>
          </if>
   </td>
 </tr>
 </volist>
 </table>
 </form>
+
 <div class="pages">{$show}</div>
 <!-----------------------------------------内容结束--------------------------------------------------->
 </div>
+<style>
+    .layui-layer-hui
+    {
+        background: #e6eddd;
+        color:#000;
+        text-align: left;
+    }
 
+    .layui-layer-content
+    {
+        text-align: left;
+    }
+</style>
 <script type="text/javascript">
+
+    function clickget(id){
+                var url = "{:U('user/zhibo')}";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:{id:id},
+            dataType: "json",
+            success: function(data){
+                layer.msg("php_sdk : "+data.php_sdk+"</br>"+"play_rtmp : "+data.play_rtmp, {
+                    time: 200000, //20s后自动关闭
+                    btn: ['关闭']
+                });
+            }
+        });
+    }
+
+
 function checkAll(e,chois)
 {
 	var aa=document.getElementsByName(chois);
