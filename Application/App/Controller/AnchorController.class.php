@@ -133,6 +133,54 @@ class AnchorController extends CommonController {
             success([]);
         }
     }
+    //课后出题
+    public function exercises_problem(){
+        $user = checklogin();
+        $live_time = I('live_time');
+        $title = I('title');
+        $test_img = $_FILES['test_img'];
+        $user_id = I('user_id');
+        $topic_name = I('topic_name');
+        $data =array();
+        if(empty($live_time) || empty($title) || empty($test_img) || empty($user_id) || empty($topic_name)){
+            error('参数有误')
+        }
+        //上传图片
+        $config = array(
+            'maxSize' => 3145728 * 3,
+            'rootPath' => './Public/Uploads/',//保存根路径
+            'savePath' =>  'tupian/',
+            'saveName' => array('uniqid', ''),
+            'exts' => array('jpg', 'gif', 'png', 'jpeg'),
+            'autoSub' => true,
+            'subName' => array('date', 'Ym/d'),
+        );
+        $Upload = new \Think\Upload($config);// 实例化上传类
+        $info = $Upload->upload($test_img);
+        if ($info) {
+            $img_path = trim($config['rootPath'], '.') . $file['savepath'] . $file['savename'];
+        } else {
+            exit($Upload->getError());
+        }
+        $data = array;
+        $data['live_time'] = $img_path;
+        $data['title'] = $title;
+        $data['test_img'] = $test_img;
+        $data['user_id'] = $user_id;
+        $data['intime'] = time();
+        $test_id = M('live_test')->add($data);
+        //出题相关信息添加完成
+        if($test_id){
+            $topic_array = explode(';',$topic_name);
+            $topic_data = array();
+            $topic_data['test_id'] = $test_id;
+            $topic_data['intime'] = time();
+           foreach ($topic_array as $val){
+               $topic_data['topic_name'] = $val;
+               M('live_topic')->add(topic_data);
+           }
+        }
+    }
 
     //课后演练(主播端)
     public function anchor_test(){
