@@ -133,17 +133,16 @@ class AnchorController extends CommonController {
             success([]);
         }
     }
-    //课后出题
+    //演练出题
     public function exercises_problem(){
         $user = checklogin();
         $live_time = I('live_time');
         $title = I('title');
         $test_img = $_FILES['test_img'];
-        $user_id = I('user_id');
         $topic_name = I('topic_name');
         $data =array();
         if(empty($live_time) || empty($title) || empty($test_img) || empty($user_id) || empty($topic_name)){
-            error('参数有误')
+            error('参数有误');
         }
         //上传图片
         $config = array(
@@ -162,11 +161,11 @@ class AnchorController extends CommonController {
         } else {
             exit($Upload->getError());
         }
-        $data = array;
+        $data = array();
         $data['live_time'] = $img_path;
         $data['title'] = $title;
         $data['test_img'] = $test_img;
-        $data['user_id'] = $user_id;
+        $data['user_id'] = $user['user_id'];
         $data['intime'] = time();
         $test_id = M('live_test')->add($data);
         //出题相关信息添加完成
@@ -177,11 +176,11 @@ class AnchorController extends CommonController {
             $topic_data['intime'] = time();
            foreach ($topic_array as $val){
                $topic_data['topic_name'] = $val;
-               M('live_topic')->add(topic_data);
+               M('live_topic')->add($topic_data);
            }
+           success('添加成功');
         }
     }
-
     //课后演练(主播端)
     public function anchor_test(){
         $user = checklogin();
