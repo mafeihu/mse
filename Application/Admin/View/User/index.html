@@ -72,14 +72,14 @@ function sendname() {
     <td align="center" class="onerow">{$l.employee_id}</td>
     <td align="center" class="onerow"><if condition=" $l.sex eq 1 ">男<else/>女</if></td>
     <td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>
-  <td align="center">
-		 <a href="javascript:;"  onclick="del({$l.user_id});">删除</a>
-		 <if condition="$l.type eq 2">
+    <td align="center">
+         <a href="javascript:;"  onclick="del({$l.user_id});">删除</a>
+         <if condition="$l.type eq 2">
              |<a href="{:U('toadd',array('id'=>$l['user_id']))}">编辑</a> |
              <a href="{:U('details',array('id'=>$l['user_id']))}">详情</a> |
-             <a href="javascript:clickget(this,{$l['user_id']});">开始直播</a>
+             <a href="javascript:void(0);" onclick="clickget({$l['user_id']},this);">开始直播</a>
          </if>
-  </td>
+    </td>
 </tr>
 </volist>
 </table>
@@ -102,8 +102,8 @@ function sendname() {
     }
 </style>
 <script type="text/javascript">
-
-    function clickget(thiss,id){
+    function clickget(id,thiss){
+        $(thiss).attr("onclick","")
         var url = "{:U('user/zhibo')}";
         $.ajax({
             type: "POST",
@@ -111,11 +111,11 @@ function sendname() {
             data:{id:id},
             dataType: "json",
             success: function(data){
-                $(thiss).remove("href");
                 layer.msg("php_sdk : "+data.php_sdk+"</br>"+"play_rtmp : "+data.play_rtmp, {
                     time: 200000, //20s后自动关闭
                     btn: ['关闭']
                 });
+
                 $(".layui-layer-btn0").click(function(){
                     window.location.href = "{:U('details',array('id'=>"+id+"))}";
                 })
@@ -124,8 +124,8 @@ function sendname() {
     }
 
 
-function checkAll(e,chois)
-{
+function checkAll(e,chois){
+
 	var aa=document.getElementsByName(chois);
 	for(var i=0;i<aa.length;i++)
 	{
