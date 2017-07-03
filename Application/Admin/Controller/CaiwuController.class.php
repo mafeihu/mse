@@ -49,6 +49,7 @@ class CaiwuController extends CommonController {
             $nus  = 10;
         }
         $this->assign("nus",$nus);
+        //获取充值记录
         $count = M('Recharge_record')->alias('a')
             ->join('__USER__ b on a.user_id=b.user_id')
             ->where($data)

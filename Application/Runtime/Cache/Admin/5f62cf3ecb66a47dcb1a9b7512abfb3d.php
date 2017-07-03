@@ -4,7 +4,7 @@
 <META content="text/html; charset=utf-8" http-equiv=Content-Type />
 <TITLE>后台管理中心</TITLE>
 
-<script type="text/javascript" src="/Public/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/mse/Public/admin/js/jquery.js"></script>
 <STYLE>
 BODY {
 	BACKGROUND-COLOR: #E6EDF2;
@@ -29,7 +29,7 @@ H1 {
 }
 
 H1 A {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bgS.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bgS.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 30px;
@@ -88,7 +88,7 @@ H1 A {
 }
 
 .MM A:link {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bg1.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bg1.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 26px;
@@ -108,7 +108,7 @@ H1 A {
 }
 
 .MM A:visited {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bg1.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bg1.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 26px;
@@ -127,7 +127,7 @@ H1 A {
 }
 
 .MM A:active {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bg1.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bg1.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 26px;
@@ -147,7 +147,7 @@ H1 A {
 }
 
 .MM A:hover {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bg2.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bg2.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 26px;
@@ -167,7 +167,7 @@ H1 A {
 }
 
 .MM A.on {
-	BACKGROUND-IMAGE: url(/Public/admin/images/menu_bg2.gif);
+	BACKGROUND-IMAGE: url(/mse/Public/admin/images/menu_bg2.gif);
 	TEXT-ALIGN: center;
 	PADDING-BOTTOM: 0px;
 	LINE-HEIGHT: 26px;
@@ -197,12 +197,12 @@ H1 A {
 			<DIV class="content">
 				<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
 					<TR>
-						<TD><IMG src="/Public/admin/images/menu_topline.gif"
+						<TD><IMG src="/mse/Public/admin/images/menu_topline.gif"
 							width="182" height="5"></TD>
 					</TR>
 				</TABLE>
 				<UL class=MM>
-					<?php if(is_array($row['xjmenus'])): $i = 0; $__LIST__ = $row['xjmenus'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$row2): $mod = ($i % 2 );++$i;?><LI><A href="<?php echo ($row2["url"]); ?>/ids/<?php echo ($row2["id"]); ?>" target="main"><?php echo ($row2["title"]); ?></A></LI><?php endforeach; endif; else: echo "" ;endif; ?>
+					<?php if(is_array($row['xjmenus'])): $i = 0; $__LIST__ = $row['xjmenus'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$row2): $mod = ($i % 2 );++$i;?><LI><A href="/mse<?php echo ($row2["url"]); ?>/ids/<?php echo ($row2["id"]); ?>" target="main"><?php echo ($row2["title"]); ?></A></LI><?php endforeach; endif; else: echo "" ;endif; ?>
 				</UL>
 			</DIV>
 

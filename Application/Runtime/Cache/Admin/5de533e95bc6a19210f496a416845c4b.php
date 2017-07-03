@@ -33,7 +33,7 @@ function chpass(){
 	window.parent.window.document.getElementById('main').contentWindow.chpasswd();
 }
 </SCRIPT>
-<link rel="stylesheet" type="text/css" href="/Public/admin/css/header.css" />
+<link rel="stylesheet" type="text/css" href="/mse/Public/admin/css/header.css" />
 <STYLE media=screen>IMG {
 	BORDER-RIGHT-WIDTH: 0px; BORDER-TOP-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px
 }
@@ -53,9 +53,9 @@ function chpass(){
         <TBODY>
         <TR>
           <TD height=38 align="right" class=admin_txt>&nbsp;&nbsp; 用户 ：<B><?php echo ($_SESSION["user"]["name"]); ?></B> 您好！
-            <!--|&nbsp; <a href="/Index/index" target="_blank" style="color:#FFF;">返回前台</a>&nbsp;&nbsp;-->
-           <a href="/cleancache.php" target="main"><IMG style="margin-top:5px;position: relative ;top:8px;" border="0" alt="安全退"出 src="/Public/admin/images/clearcache_bnt.jpg"></a>
-		    <A onClick="logout();" href="javascript:void(0);"><IMG style="margin-top:5px;position: relative ;top:8px;" border="0" alt="安全退"出 src="/Public/admin/images/tuichu_bnt.jpg"></A>
+            <!--|&nbsp; <a href="/mse/Index/index" target="_blank" style="color:#FFF;">返回前台</a>&nbsp;&nbsp;-->
+           <a href="/cleancache.php" target="main"><IMG style="margin-top:5px;position: relative ;top:8px;" border="0" alt="安全退"出 src="/mse/Public/admin/images/clearcache_bnt.jpg"></a>
+		    <A onClick="logout();" href="javascript:void(0);"><IMG style="margin-top:5px;position: relative ;top:8px;" border="0" alt="安全退"出 src="/mse/Public/admin/images/tuichu_bnt.jpg"></A>
 		  </TD>
           </TR>
         <TR>

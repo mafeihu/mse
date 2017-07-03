@@ -25,7 +25,7 @@ class PingxxController extends CommonController
         $type = I('type');
         (empty($amount) || $amount==0 || $diamond==0) ? error('参数错误!') : true;
         $pay_number = date('YmdHis').rand(100,999);
-        if($type==null)
+        if($type==null){
             $type="wx";
         }
         M('Recharge_record')->add(array('user_id'=>$user['user_id'],'pay_number'=>$pay_number,'amount'=>$amount,'diamond'=>$diamond,'pay_on'=>'','pay_return'=>'','pay_type'=>$type,'intime'=>time()));
