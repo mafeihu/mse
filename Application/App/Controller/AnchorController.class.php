@@ -8,6 +8,44 @@ class AnchorController extends CommonController {
         $user = checklogin();
         success($user['get_money']);
     }
+    //主播提现
+    public function anchor_withdrawal(){
+        $user = checklogin();
+        $user_id = I("user_id");
+        $yp = I('yp');
+        $money = I("money");
+        if(empty($money) || empty($yp) || empty($money)){
+            error('参数错误');
+        }
+        $data = array();
+        $data['user_id'] = $user_id;
+        $data['yp'] = $yp;
+        $data['money'] = $money;
+        $data['status'] = 1;
+        $data['intime'] = time();
+        $data['uptime'] = time();
+        $result = M('withdraw')->add($data);
+        if($result){
+            success('申请成功');
+        }else{
+            error('参数错误');
+        }
+    }
+    // 提现记录
+    public function get_withdrawal(){
+        $user = checklogin();
+        $user_id = I('user_id');
+        $result = M('withdraw')->where(['user_id'=>$user_id])->order('uptime')->field('yp,money,status,uptime')->select();
+
+        foreach ($result as  $key => $val){
+            $result[$key]['uptime'] =  date ('Y-m-d H:i:s',$val['uptime']);
+        }
+        if($result){
+            success($result);
+        }else{
+            success([]);
+        }
+    }
 
     //主播贡献榜
     public function anchor_contribute(){

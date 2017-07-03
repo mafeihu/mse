@@ -157,16 +157,20 @@ class UserController extends CommonController
         'shi'=>'',
         'intime'=>time()
     ];
-//        $live_id = M('live')->add($data);
+       $live_id = M('live')->add($data);
 //        if($live_id){
 //           $data =  M('Live')->where(['live_id'=>$live_id])->find();
 //            $url = C('IMG_PREFIX')."/App/Index/share_live/live_id/" . base64_encode($live_id);
 //            M('live')->where(['live_id'=>$live_id])->save(['url'=>$url]);
 //            $this->redirect("User/details",array('id' => $user_id,));
 //        }
+        if($live_id){
+            $user_live = M('Live')->where(['user_id'=>$user_id])->order('live_id desc')->limit(1)->find();
+            $this->ajaxreturn(array("php_sdk"=>$user_live['php_sdk'],"play_rtmp"=>$user_live['play_rtmp']));
+        }else{
+            $this->ajaxreturn('获取失败');
+        }
 
-        $user_live = M('Live')->where(['user_id'=>$user_id])->order('live_id desc')->limit(1)->find();
-        $this->ajaxreturn(array("php_sdk"=>$user_live['php_sdk'],"play_rtmp"=>$user_live['play_rtmp']));
     }
 
     /**
@@ -273,7 +277,6 @@ class UserController extends CommonController
         unset($_POST['__hash__']);
         $id = I('id');
         $user = M('User')->where(['user_id' => $id])->find();
-        $user_live = M('Live')->where(['user_id'=>$id])->order('live_id desc')->limit(1)->find();
         $user['xiaofei'] = M('Give_gift')->where(['user_id' => $id])->sum('jewel');
         $user['withdraw_count'] = M('Withdraw')->where(['user_id' => $id])->sum('money');
         $this->assign('view', $user);
@@ -429,7 +432,6 @@ class UserController extends CommonController
                 $this->assign("show", $p->show());
                 break;
         }
-        $this->assign('user_live',$user_live);
         $this->assign('state', $state);
         $this->assign('pagetitle', '详情');
         $this->display();
