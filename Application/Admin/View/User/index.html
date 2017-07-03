@@ -77,7 +77,7 @@ function sendname() {
 		 <if condition="$l.type eq 2">
              |<a href="{:U('toadd',array('id'=>$l['user_id']))}">编辑</a> |
              <a href="{:U('details',array('id'=>$l['user_id']))}">详情</a> |
-             <a href="javascript:void(0); onclick=clickget({$l['user_id']});">开始直播</a>
+             <a href="javascript:clickget(this,{$l['user_id']});">开始直播</a>
          </if>
   </td>
 </tr>
@@ -103,18 +103,22 @@ function sendname() {
 </style>
 <script type="text/javascript">
 
-    function clickget(id){
-                var url = "{:U('user/zhibo')}";
+    function clickget(thiss,id){
+        var url = "{:U('user/zhibo')}";
         $.ajax({
             type: "POST",
             url: url,
             data:{id:id},
             dataType: "json",
             success: function(data){
+                $(thiss).remove("href");
                 layer.msg("php_sdk : "+data.php_sdk+"</br>"+"play_rtmp : "+data.play_rtmp, {
                     time: 200000, //20s后自动关闭
                     btn: ['关闭']
                 });
+                $(".layui-layer-btn0").click(function(){
+                    window.location.href = "{:U('details',array('id'=>"+id+"))}";
+                })
             }
         });
     }
