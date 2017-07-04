@@ -650,11 +650,12 @@ class IndexController extends CommonController {
      * @送礼
      */
     public function give_gift(){
-        checklogin();
+        //checklogin();;
         $user_id = I('uid');
         $live_id = I('live_id');
         $gift_id = I('gift_id');
         (empty($live_id) || empty($gift_id)) ? error('参数错误!') : true;
+        //根据商品获取商品的相关信息
         $gift = M('Gift')->where(['gift_id' => $gift_id])->find();
         //获取送礼人的余额
         $money = M('User')->getFieldByUser_id($user_id, 'money');
@@ -663,8 +664,13 @@ class IndexController extends CommonController {
         $user_money = $money-$gift['price'];
         //获取主播ID
         $user_id2 = M('Live')->getFieldByLive_id($live_id,'user_id');
-        //获取主播的余额
-        $get_money = M('User')->getFieldByUser_id($user_id2, 'get_money') + $gift['price'];
+        //获取主播的余额(钻石)
+        $money = M('User')->getFieldByUser_id($user_id2, 'money') + $gift['price'];
+        //将获取的钻石转换成银票
+        $scale = M('convert_scale')->where(['id'=>1])->find();
+        $scale_zhuanhuan = round($scale['meters']/$scale['yp'],2);
+        $get_money = $money*$scale_zhuanhuan;
+        $get_money = M('User')->getFieldByUser_id($user_id2, 'get_money') + $get_money;
         //将送礼人和主播的余额更新
         $u = M('User')->where(['user_id' =>$user_id])->save(['money' => $user_money, 'uptime' => time()]);
         $u2 = M('User')->where(['user_id' => $user_id2])->save(['get_money' => $get_money, 'uptime' => time()]);
