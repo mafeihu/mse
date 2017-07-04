@@ -96,20 +96,20 @@ class UserController extends CommonController
         } else {
             $nus = 10;
         }
+        $data['type'] = "2";
+        //判断普通会员还是直播会员
+        if($_GET['ids'] == "459"){
+            $data['type'] = "2";
+        }else{
+            $data['type'] = "1";
+        }
         $this->assign("nus", $nus);
         $count = M('User')->where($data)->count();//一共有多少条记录
         $p = getpage($count, $nus);
-        $data['type'] = 2;
-        //判断普通会员还是直播会员
-        if($_GET['ids'] == "459"){
-          $data['type'] = "2";
-        }else{
-          $data['type'] = "1";
-        }
         $list = M('User')->limit($p->firstRow . ',' . $p->listRows)->where($data)->order('intime desc')->select();
         $this->assign('list', $list);
         $this->assign("show", $p->show());
-        if($data['type'] == 2){
+        if($data['type'] == "2"){
           $this->assign('pagetitle', '直播会员列表');
         }else{
           $this->assign('pagetitle', '普通会员列表');
@@ -237,7 +237,7 @@ class UserController extends CommonController
         ];
         if ($id) {
             $data['uptime'] = time();
-            M('User')->where(['user_id' => $id])->save($data) ? $this->success('成功!', U('index')) : $this->error('失败!', U('index'));
+            M('User')->where(['user_id' => $id])->save($data) ? $this->success('成功!', U('index',array('ids'=>459))) : $this->error('失败!', U('index'));
         } else {
             $chars = "abcdefghijklmnopqrstuvwxyz123456789";
             mt_srand(10000000 * (double)microtime());
@@ -261,7 +261,7 @@ class UserController extends CommonController
                 $us['img'] = C('IMG_PREFIX') . $us['img'];
                 $url = C('IMG_PREFIX') . "/index.php?m=Home&c=Public&a=index" . "&uid=" . base64_encode($id);
                 M('User')->where(['user_id' => $ids])->save(['url' => $url, 'uptime' => time()]);
-                $this->success('成功!', U('index'));
+                $this->success('成功!', U('index',array('ids'=>459)));
             } else {
                 $this->error('失败!', U('index'));
             }
