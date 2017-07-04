@@ -72,6 +72,7 @@ function sendname() {
     <td align="center" class="onerow">{$l.employee_id}</td>
     <td align="center" class="onerow"><if condition=" $l.sex eq 1 ">男<else/>女</if></td>
     <td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>
+<<<<<<< HEAD
     <td align="center">
          <a href="javascript:;"  onclick="del({$l.user_id});">删除</a>
          <if condition="$l.type eq 2">
@@ -80,6 +81,16 @@ function sendname() {
              <a href="javascript:void(0);" onclick="clickget({$l['user_id']},this);">开始直播</a>
          </if>
     </td>
+=======
+  <td align="center">
+        <a href="javascript:;"  onclick="del({$l.user_id});">删除</a>|
+        <a href="{:U('details',array('id'=>$l['user_id']))}">详情</a>
+        <if condition="$l.type eq 2">
+             |<a href="{:U('toadd',array('id'=>$l['user_id']))}">编辑</a> |
+             <a href="javascript:void(0); onclick=clickget({$l['user_id']});">获取直播码</a>
+        </if>
+  </td>
+>>>>>>> 充值记录修改
 </tr>
 </volist>
 </table>

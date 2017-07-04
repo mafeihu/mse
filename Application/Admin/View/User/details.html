@@ -101,14 +101,18 @@
                 <!--<li>体育</li>-->
                 <!--<li>娱乐</li>-->
                 <a href="{:U('details',array('id'=>$view['user_id'],'state'=>1))}"><li <if condition=" $state eq 1 ">class="selected"<else/></if>>充值记录</li></a>
+                <if condition="$view.type eq 2 ">
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>3))}"><li <if condition=" $state eq 3 ">class="selected"<else/></if>>提现记录</li></a>
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>4))}"><li <if condition=" $state eq 4 ">class="selected"<else/></if>>收益记录</li></a>
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>6))}"><li <if condition=" $state eq 6 ">class="selected"<else/></if>>关注列表</li></a>
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>7))}"><li <if condition=" $state eq 7 ">class="selected"<else/></if>>粉丝列表</li></a>
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>8))}"><li <if condition=" $state eq 8 ">class="selected"<else/></if>>直播列表</li></a>
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>9))}"><li <if condition=" $state eq 9 ">class="selected"<else/></if>>录播列表</li></a>
+                <else />
+                    <a href="{:U('details',array('id'=>$view['user_id'],'state'=>5))}"><li <if condition=" $state eq 5 ">class="selected"<else/></if>>消费记录</li></a>
+                </if>
                 <!--<a href="{:U('details',array('id'=>$view['user_id'],'state'=>2))}"><li <if condition=" $state eq 2 ">class="selected"<else/></if>>兑换记录</li></a>-->
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>3))}"><li <if condition=" $state eq 3 ">class="selected"<else/></if>>提现记录</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>4))}"><li <if condition=" $state eq 4 ">class="selected"<else/></if>>收益记录</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>5))}"><li <if condition=" $state eq 5 ">class="selected"<else/></if>>消费记录</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>6))}"><li <if condition=" $state eq 6 ">class="selected"<else/></if>>关注列表</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>7))}"><li <if condition=" $state eq 7 ">class="selected"<else/></if>>粉丝列表</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>8))}"><li <if condition=" $state eq 8 ">class="selected"<else/></if>>直播列表</li></a>
-                <a href="{:U('details',array('id'=>$view['user_id'],'state'=>9))}"><li <if condition=" $state eq 9 ">class="selected"<else/></if>>录播列表</li></a>
+
             </ul>
         </div>
         <div class="tab_box">
@@ -241,7 +245,6 @@
                 <tr class="tabTextMain" id="f_{$l.id}" onmouseout="this.style.background='#FFFFFF';" onmouseover="this.style.background='#fbf435';">
                     <td align="center" class="onerow">{$l.username}(员工编号:{$l.employee_id})</td>
                     <td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>
-
                 </tr>
             </volist>
         </table>

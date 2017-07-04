@@ -49,12 +49,13 @@ class CaiwuController extends CommonController {
             $nus  = 10;
         }
         $this->assign("nus",$nus);
-        //获取充值记录
+        //获取充值记录的总条数
         $count = M('Recharge_record')->alias('a')
             ->join('__USER__ b on a.user_id=b.user_id')
             ->where($data)
             ->count();//一共有多少条记录
         $p = getpage($count,$nus);
+
         $list =  M('Recharge_record')
             ->alias('a')
             ->field('a.*,b.username,b.ID,b.img,b.phone')
