@@ -277,6 +277,12 @@ class UserController extends CommonController
         unset($_POST['__hash__']);
         $id = I('id');
         $user = M('User')->where(['user_id' => $id])->find();
+        //银票兑换人民币比例
+        $bank_exchange = M('System')->field('bank_notes_exchange')->where(['id'=>1])->find();
+        //将银票转化成人民币
+        if($user['type'] == "2"){
+            $user['money'] = round($user['get_money']/$bank_exchange['bank_notes_exchange'],2);
+        }
         $user['xiaofei'] = M('Give_gift')->where(['user_id' => $id])->sum('jewel');
         $user['withdraw_count'] = M('Withdraw')->where(['user_id' => $id])->sum('money');
         $this->assign('view', $user);

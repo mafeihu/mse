@@ -74,26 +74,47 @@
 <div class="infoBox">
 <form name="form" action="{:U('doadd')}"  method="post" onsubmit="return checkss();">
     <div style="width:100%;margin-top: 30px;">
-        <div style="width:100%;height:160px;float:left">
-            <div style="float:left;height:150px;width:113px"><img src="{$view.img}" style="width:113px;height:111px;margin-bottom:10px"><span style="padding-left:15px">{$mem.nickname}</span>&nbsp;&nbsp;<span><if condition="$mem.sex eq 1">女<elseif condition="$mem.sex eq 2"/>男<else/></if></span></div>
-            <div style="float:left;padding-left:50px">
-                <ul style="line-height:30px">
-                    <li>昵称：{$view.username}</li>
-                    <li>性别：{$view['sex'] == 1 ? '男' : ($view['sex'] == 2 ? '女' : '未知')}</li>
-                    <li>账号：{$view.phone}</li>
-                    <li>地址：{$view.province}{$view.city}{$view.area}&nbsp;{$view.address}</li>
-                </ul>
+        <if condition="$view.type == 2">
+            <div style="width:100%;height:160px;float:left">
+                <div style="float:left;height:150px;width:113px"><img src="{$view.img}" style="width:113px;height:111px;margin-bottom:10px"><span style="padding-left:15px">{$mem.nickname}</span>&nbsp;&nbsp;<span><if condition="$mem.sex eq 1">女<elseif condition="$mem.sex eq 2"/>男<else/></if></span></div>
+                <div style="float:left;padding-left:50px">
+                    <ul style="line-height:30px">
+                        <li>昵称：{$view.username}</li>
+                        <li>性别：{$view['sex'] == 1 ? '男' : ($view['sex'] == 2 ? '女' : '未知')}</li>
+                        <li>账号：{$view.phone}</li>
+                        <li>地址：{$view.province}{$view.city}{$view.area}&nbsp;{$view.address}</li>
+                    </ul>
+                </div>
+                <div style="float:left;padding-left:50px">
+                    <ul style="line-height:30px">
+                        <li>账户余额：￥{$view['money']|default=0} </li>
+                        <li>收益：{$view.get_money|default=0} </li>
+                        <li>已提现总额：￥{$view.withdraw_count|default=0} </li>
+                    </ul>
+                </div>
             </div>
-            <div style="float:left;padding-left:50px">
-                <ul style="line-height:30px">
-                    <li>账户余额：{$view['money']|default=0} </li>
-                    <li>收益：{$view.get_money|default=0} </li>
-                    <li>总消费：{$view['xiaofei']|default=0} </li>
-                    <li>已提现总额：{$view.withdraw_count|default=0} </li>
-                </ul>
+        <else />
+            <div style="width:100%;height:160px;float:left">
+                <div style="float:left;height:150px;width:113px"><img src="{$view.img}" style="width:113px;height:111px;margin-bottom:10px"><span style="padding-left:15px">{$mem.nickname}</span>&nbsp;&nbsp;<span><if condition="$mem.sex eq 1">女<elseif condition="$mem.sex eq 2"/>男<else/></if></span></div>
+                <div style="float:left;padding-left:50px">
+                    <ul style="line-height:30px">
+                        <li>昵称：{$view.username}</li>
+                        <li>性别：{$view['sex'] == 1 ? '男' : ($view['sex'] == 2 ? '女' : '未知')}</li>
+                        <li>账号：{$view.phone}</li>
+                        <li>地址：{$view.province}{$view.city}{$view.area}&nbsp;{$view.address}</li>
+                    </ul>
+                </div>
+                <div style="float:left;padding-left:50px">
+                    <ul style="line-height:30px">
+                        <li>剩余钻石数量：{$view['money']|default=0} </li>
+                        <li>总消费：￥{$view['xiaofei']|default=0} </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </if>
     </div>
+
+    <!---========================================================================================以上获取讲师和听众的相关信息=======================================================================================================================-->
     <div class="tab">
         <div class="tab_menu">
             <ul>
