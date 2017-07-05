@@ -102,12 +102,49 @@ class LoginController extends CommonController {
 				header('location:' . $code);
 			}
 	}
-
-
-
-
-
-
+    /**\
+     *判断用户是否认证
+     */
+    public function is_authentication(){
+        $user_id = I("user_id");
+        if(empty($user_id)){
+            error("参数错误");
+            return false;
+        }
+        $user = M('member_info')->where(['user_id'=>$user_id])->find();
+        if($user){
+            success("已经认证");
+        }else{
+            success("未认证");
+        }
+    }
+    /**
+     * 进行实名认证
+     */
+    public function real_authentication(){
+        $user_id = I("user_id");
+        $real_name = I('real_name');
+        $card_id = I('card_id');
+        $employee_id = I('employee_id');
+        if(empty($user_id) || empty($real_name) || empty($card_id) || empty($employee_id) || empty($user_id)){
+            error('参数有误');
+        }
+        $data['real_name'] = $real_name;
+        $data['card_id'] = $card_id;
+        $data['employee_id'] = $employee_id;
+        $ren_result = M("member_info")->where($data)->find();
+        if($ren_result){
+            $renzheng = M("member_info")->where($data)->save(['user_id'=>$user_id]);
+            success("认证成功");
+            if($renzheng){
+                success("数据更新成功");
+            }else{
+                error("数据更新失败");
+            }
+        }else{
+            error('认证失败');
+        }
+    }
   /*
    * @发送短信
    * @type 1:注册  2:找回密码
