@@ -232,14 +232,14 @@ class UserController extends CommonController
     public function member_doadd(){
         if (!M()->autoCheckToken($_POST)) $this->error('禁止站外提交！');
         unset($_POST['__hash__']);
-        $id = I(id);
+        $id = I('id');
         $data['real_name'] = empty(I('real_name')) ? false : I('real_name');
         $data['card_id'] = empty(I('card_id')) ? false : I('card_id');
         $data['employee_id'] = empty(I('employee_id')) ? false : I('employee_id');
         if(in_array(false, $data)){
             $this->error('保存失败，请填写完整!', U('index'));
         }
-        if(isset($id)){
+        if(!empty($id)){
             $member = M('member_info')->where(['id'=>$id])->save($data);
         }else{
             $member = M('member_info')->add($data);
