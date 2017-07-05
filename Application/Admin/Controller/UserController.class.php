@@ -60,7 +60,6 @@ class UserController extends CommonController
             }
         }
     }
-
     // 主页面
     public function index()
     {
@@ -98,21 +97,22 @@ class UserController extends CommonController
         }
         $data['type'] = "2";
         //判断普通会员还是直播会员
+        $this->assign("nus", $nus);
         if($_GET['ids'] == "459"){
             $data['type'] = "2";
+            $count = M('User')->where($data)->count();//一共有多少条记录
+            $p = getpage($count, $nus);
+            $list = M('User')->limit($p->firstRow . ',' . $p->listRows)->where($data)->order('intime desc')->select();
+            $this->assign('list', $list);
+            $this->assign("show", $p->show());
+            $this->assign('pagetitle', '直播会员列表');
         }else{
-            $data['type'] = "1";
-        }
-        $this->assign("nus", $nus);
-        $count = M('User')->where($data)->count();//一共有多少条记录
-        $p = getpage($count, $nus);
-        $list = M('User')->limit($p->firstRow . ',' . $p->listRows)->where($data)->order('intime desc')->select();
-        $this->assign('list', $list);
-        $this->assign("show", $p->show());
-        if($data['type'] == "2"){
-          $this->assign('pagetitle', '直播会员列表');
-        }else{
-          $this->assign('pagetitle', '普通会员列表');
+            $count =M("member_info")->count(); //获取会员人数
+            $p =  getpage($count, $nus);
+            $list = M('member_info')->limit($p->firstRow . ',' . $p->listRows)->select();
+            $this->assign('list',$list);
+            $this->assign('show',$p->show());
+            $this->assign('pagetitle', '普通会员列表');
         }
         $this->display();
     }
@@ -211,7 +211,55 @@ class UserController extends CommonController
         $this->assign('pagetitle', $sta);
         $this->display();
     }
+    /**
+     * 会员添加页面
+     */
+    public function member_toadd(){
+        $id  = I('id');
+        if($id){
+            $member = M("member_info")->where(['id'=>$id])->find();
+            $this->assign('m',$member);
+            $sta = '编辑';
+        }else{
+            $sta = "添加";
+        }
+        $this->assign('pagetitle',$sta);
+        $this->display();
+    }
+    /**
+     * 进行会员添加，修改
+     */
+    public function member_doadd(){
+        if (!M()->autoCheckToken($_POST)) $this->error('禁止站外提交！');
+        unset($_POST['__hash__']);
+        $id = I(id);
+        $data['real_name'] = empty(I('real_name')) ? false : I('real_name');
+        $data['card_id'] = empty(I('card_id')) ? false : I('card_id');
+        $data['employee_id'] = empty(I('employee_id')) ? false : I('employee_id');
+        if(in_array(false, $data)){
+            $this->error('保存失败，请填写完整!', U('index'));
+        }
+        if(isset($id)){
+            $member = M('member_info')->where(['id'=>$id])->save($data);
+        }else{
+            $member = M('member_info')->add($data);
+        }
+        if($member){
+            $this->success('成功!', U('index',array('ids'=>459)));
+        }else{
+            $this->error('失败!', U('index'));
+        }
+    }
 
+    /**
+     * 删除会员
+     */
+    public function del_member()
+    {
+        $id = I('ids');
+        $rs = M('member_info')->where(['id' => ['in', $id]])->delete();
+        echo $rs ? 1 : 2;
+    }
     /**
      * @修改
      */
