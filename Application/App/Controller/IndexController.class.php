@@ -657,7 +657,7 @@ class IndexController extends CommonController {
         (empty($live_id) || empty($gift_id)) ? error('参数错误!') : true;
         //根据商品获取商品的相关信息
         $gift = M('Gift')->where(['gift_id' => $gift_id])->find();
-        //获取送礼人的余额
+        //获取送礼人的余额(钻石数量)
         $money = M('User')->getFieldByUser_id($user_id, 'money');
         $money - $gift['price'] < 0 ? error('余额不足!') : true;
         //余额减去要送礼的价格

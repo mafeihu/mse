@@ -11,20 +11,30 @@ class AnchorController extends CommonController {
     //主播提现
     public function anchor_withdrawal(){
         $user = checklogin();
-        $user_id = I("user_id");
         $yp = I('yp');
         $money = I("money");
         if(empty($money) || empty($yp) || empty($money)){
             error('参数错误');
         }
         $data = array();
-        $data['user_id'] = $user_id;
+        $data['user_id'] = $user['user_id'];
         $data['yp'] = $yp;
         $data['money'] = $money;
         $data['status'] = 1;
         $data['intime'] = time();
         $data['uptime'] = time();
-        $result = M('withdraw')->add($data);
+        //获取主播的银票数量
+        $user_info = M('user')->where(['user_id'=>$user['user_id']])->find();
+        //判断银票数量是否小于账户余额\
+        if(($user_info['get_money']-$yp)<=0){
+            error("账户余额不足！！");
+        }
+        //进行提现操作
+        $account_balance = $user_info['get_money']-$yp;
+        $userupdate = M('user')->where(['user_id'=>$user['user_id']])->save(['get_money'=>$account_balance]);
+        if($userupdate){
+            $result = M('withdraw')->add($data);
+        }
         if($result){
             success('申请成功');
         }else{

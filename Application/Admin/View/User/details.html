@@ -143,7 +143,7 @@
                     <tr class="tabTitleMain">
                         <td width="15%" align="center">充值编号</td>
                         <td width="10%" align="center">金额</td>
-                        <td width="10%" align="center">平米</td>
+                        <td width="10%" align="center">钻石数量</td>
                         <td width="12%" align="center">时间</td>
                         <td width="10%" align="center">支付类型</td>
                     </tr>
@@ -153,7 +153,7 @@
                         <tr class="tabTextMain" id="f_{$l.id}" onmouseout="this.style.background='#FFFFFF';" onmouseover="this.style.background='#fbf435';">
                             <td align="center" class="onerow">{$l.pay_number}</td>
                             <td align="center" class="onerow">{$l.amount}</td>
-                            <td align="center" class="onerow">{$l.meters}</td>
+                            <td align="center" class="onerow">{$l.diamond}</td>
                             <td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>
                             <td align="center" class="onerow">{$l.pay_type}</td>
 
@@ -185,18 +185,16 @@
             <div <if condition=" $state neq 3 ">class="hide"</if>>
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="">
                     <tr class="tabTitleMain">
-                        <td width="15%" align="center">提现K币</td>
+                        <td width="15%" align="center">提现银票</td>
                         <td width="10%" align="center">金额</td>
                         <td width="10%" align="center">账户</td>
                         <td width="10%" align="center">类型</td>
                         <td width="10%" align="center">状态</td>
                         <td width="12%" align="center">申请时间</td>
                     </tr>
-
-
                     <volist name='w' id='l' key='i'>
                         <tr class="tabTextMain" id="f_{$l.id}" onmouseout="this.style.background='#FFFFFF';" onmouseover="this.style.background='#fbf435';">
-                            <td align="center" class="onerow">{$l.k}</td>
+                            <td align="center" class="onerow">{$l.yp}</td>
                             <td align="center" class="onerow">{$l.money}</td>
                             <td align="center" class="onerow">{$l.withdraw_way}</td>
                             <td align="center" class="onerow">{$l.withdraw_type}</td>
@@ -237,7 +235,7 @@
                 <td width="15%" align="center">直播标题</td>
                 <td width="10%" align="center">主播</td>
                 <td width="10%" align="center">礼物</td>
-                <td width="10%" align="center">价格</td>
+                <td width="10%" align="center">钻石数量</td>
                 <td width="12%" align="center">时间</td>
             </tr>
 
@@ -249,7 +247,6 @@
                     <td align="center" class="onerow">{$l.name}</td>
                     <td align="center" class="onerow">{$l.jewel}</td>
                     <td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>
-
                 </tr>
             </volist>
         </table>
