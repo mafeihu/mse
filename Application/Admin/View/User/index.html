@@ -89,6 +89,8 @@ function sendname() {
             <td width="15%" align="center">姓名</td>
             <td width="10%" align="center">身份证号码</td>
             <td width="10%" align="center">员工编号</td>
+            <td width="10%" align="center">时间</td>
+            <td width="15%" align="center">操作</td>
             <!--<td width="10%" align="center">性别</td>-->
             <!--<td width="15%" align="center">操作</td>-->
         </tr>
@@ -99,12 +101,13 @@ function sendname() {
                 <td align="center" class="onerow">{$l.real_name}</td>
                 <td align="center" class="onerow">{$l.card_id}</td>
                 <td align="center" class="onerow">{$l.employee_id}</td>
+                <td align="center" class="onerow">{$l.uptime|date="Y-m-d H:i:s",###}</td>
                 <!--<td align="center" class="onerow"><if condition=" $l.sex eq 1 ">男<else/>女</if></td>-->
                 <!--<td align="center" class="onerow">{$l.intime|date="Y-m-d H:i",###}</td>-->
 
                 <td align="center">
                     <a href="javascript:;"  onclick="del_member({$l['id']});">删除</a>|
-                    <a href="{:U('details',array('id'=>$l['id']))}">详情</a>|
+                    <a href="{:U('details',array('id'=>$l['id'],'type'=>1))}">详情</a>|
                     <a href="{:U('member_toadd',array('id'=>$l['id']))}">编辑</a>
                 </td>
             </tr>

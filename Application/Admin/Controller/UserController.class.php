@@ -236,18 +236,20 @@ class UserController extends CommonController
         $data['real_name'] = empty(I('real_name')) ? false : I('real_name');
         $data['card_id'] = empty(I('card_id')) ? false : I('card_id');
         $data['employee_id'] = empty(I('employee_id')) ? false : I('employee_id');
+        $data['uptime'] = time();
         if(in_array(false, $data)){
             $this->error('保存失败，请填写完整!', U('index'));
         }
         if(!empty($id)){
             $member = M('member_info')->where(['id'=>$id])->save($data);
         }else{
+            $data['intime'] = time();
             $member = M('member_info')->add($data);
         }
         if($member){
-            $this->success('成功!', U('index',array('ids'=>459)));
+            $this->success('成功!', U('index',array('ids'=>420)));
         }else{
-            $this->error('失败!', U('index'));
+            $this->error('失败!', U('index',array('ids' => 420)));
         }
     }
 
@@ -322,20 +324,53 @@ class UserController extends CommonController
     public function details()
     {
         if (!M()->autoCheckToken($_POST)) $this->error('禁止站外提交！');
-        unset($_POST['__hash__']);
+        unset($_POST['__ash__']);
         $id = I('id');
-        $user = M('User')->where(['user_id' => $id])->find();
-        //银票兑换人民币比例
-        $bank_exchange = M('System')->field('bank_notes_exchange')->where(['id'=>1])->find();
-        //将银票转化成人民币
-        if($user['type'] == "2"){
-            $user['money'] = round($user['get_money']/$bank_exchange['bank_notes_exchange'],2);
+        $type = I('type'); //当type的值为1时，为普通会员，否则为直播会员
+        //判断普通用户是否认证
+        if(!empty($type)){
+            $user_info =  M('user')
+                ->alias('u')
+                ->field('u.user_id,m.real_name, m.card_id, m.employee_id, u.sex, u.img,u.money')
+                ->join('m_member_info m on u.user_id = m.user_id')
+                ->where(['m.id'=> $id])
+                ->find();
+            if($user_info){
+                $user_info['is_renzheng'] = "1"; //已认证
+            }else{
+                $user_info['is_renzheng'] = "0";//未认证
+            }
+            //获取他的消费金额(钻石);
+            $user_info['xiaofei'] = M('Give_gift')
+                ->alias('g')
+                ->join('m_gift as f on g.gift_id = f.gift_id')
+                ->where(['user_id' => $user_info['user_id']])
+                ->sum('f.price');
+            //获取充值钻石的总数
+            $user_info['diamond_content'] = M('recharge_record')
+                ->where(['user_id' => $user_info['user_id']])
+                ->sum('diamond');
+
+            //获取充值值总额（人民币）
+            $user_info['amount_content'] = M('recharge_record')->where(['user_id' => $user_info['user_id'] ])->sum('amount');
+            //账户余额（钻石）
+            $user_info['account_balance'] =  $user_info['diamond_content']-$user_info['xiaofei'];
+            $id = $user_info['user_id'];
+        }else{
+            //直播会员的相关信息
+            $user_info = M('User')->where(['user_id' => $id])->find();
+            //银票兑换人民币比例
+            $bank_exchange = M('System')->field('bank_notes_exchange')->where(['id'=>1])->find();
+            //将银票转化成人民币
+            if($user_info['type'] == "2"){
+                $user['money'] = round($user_info['get_money']/$bank_exchange['bank_notes_exchange'],2);
+            }
+            //提现金额
+            $user_info['withdraw_count'] = M('Withdraw')->where(['user_id' => $id])->sum('money');
         }
-        $user['xiaofei'] = M('Give_gift')->where(['user_id' => $id])->sum('jewel');
-        $user['withdraw_count'] = M('Withdraw')->where(['user_id' => $id])->sum('money');
-        $this->assign('view', $user);
+        $this->assign('view', $user_info);
         $state = I('state');
-        if (!$state) {
+        if (!$state) {;
             $state = '1';
         }
         switch ($state) {
