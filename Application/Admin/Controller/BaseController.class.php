@@ -611,18 +611,75 @@ class BaseController extends CommonController {
     }
 
     /**
-     * @公开课
+     * @公开课添加修改页面展示
      */
+    public function course_toadd(){
+      $course_id = empty(I("course_id")) ? false : I("course_id");
+      if($course_id){
+          $course_res = M("public_course")->where(['id' =>$course_id] )->find();
+          if($course_res){
+           $this->assign('c',$course_res);
+          }
+          $this->assign("pagetitle","信息修改");
+      }else{
+          $this->assign("pagetitle","信息添加");
+      }
+        $this->display();
+    }
+    /**
+     * @公开课程的添加修改
+     */
+    public function course_doadd(){
+        if( !M()->autoCheckToken($_POST) ) $this->error('禁止站外提交！');
+        unset($_POST['__hash__']);
+        $data['course_title'] = empty(I("course_title")) ?  false : I("course_title");
+        $data['course_cauthor']  = empty(I('course_cauthor')) ? false : I("course_cauthor");
+        $data['course_description'] = empty(I('course_description')) ? false : I("course_description");
+        $data['intime'] = time();
+        if( in_array(false, $data)){
+            error("参数有误，请重完整填写信息");
+        }
+        $course_id = I("course_id");
+        $course_img = empty(I('course_img')) ?  false : I("course_img");
+        if(empty($course_id)){
+            //商品添加
+            if(!$course_img){
+                error('参数有误，请重完整填写信息');
+            }
+            $data['course_img'] = $course_img;
+            $course = M("public_course")->add($data);
+        }else{
+            //商品修改
+            if($course_img){
+                $data['course_img'] = $course_img;
+            }
+            $course = M("public_course")->where(['id' => $course_id])->save($data);
+        }
+        if($course){
+            $this->success('保存成功!',U('open_course'));
+        }else{
+            $this->success('保存失败!',U('open_course'));
+        }
+
+    }
+    /**
+     * @公开课程删除操作
+     */
+    public function  course_del(){
+        if( !M()->autoCheckToken($_POST) ) $this->error('禁止站外提交！');
+        unset($_POST['__hash__']);
+        $course_id = I("ids");
+        $res = M("public_course")->where(['id'=>$course_id])->delete();
+        echo $res ? 1 : 2;
+    }
+
+
+
     public function open_course(){
         $this->assign ( 'pagetitle', '公开课' );
-        $id = I('id');
-        if (empty($id)){
-            $s = M('System')->field('id,open_course')->where(['id'=>1])->find();
-            $this->assign('a',$s);
-            $this->display();
-        }else{
-            M('System')->where(['id'=>$id])->save(['open_course'=>I('content'),'uptime'=>time()]) ? $this->success('成功!',U('open_course')) : $this->error('失败!',U('open_course')) ;
-        }
+        $course = M("public_course")->select();
+        $this->assign('course',$course);
+        $this->display();
     }
 
     /**

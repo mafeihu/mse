@@ -22,11 +22,13 @@ class LoginController extends CommonController {
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->system['appid'] . "&secret=" . $this->system['appsecret'] . "&code=" . I("code") . "&grant_type=authorization_code";
 		$result = curl_get($url);
 		$arr = json_decode($result, true);
+
 		$url1 = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=" . $this->system['appid'] . "&grant_type=refresh_token&refresh_token=" . $arr['refresh_token'];
 		$arr1 = curl_get($url1);
 		$arr1 = json_decode($arr1, true);
 		$url2 = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $arr1['access_token'] . "&openid=" . $this->system['appid'] . "&lang=zh_CN";
 		$arr2 = curl_get($url2);
+		$arr2 = json_decode($arr2,true);
 		$openid = $arr['openid'];
 		if (!empty($openid)) {
 			$check = M('User')->field('user_id,token,openid,hx_username,hx_password')->where(['openid' => $openid])->find();

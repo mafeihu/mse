@@ -1,2 +1,4 @@
 /.idea/workspace.xml
-/Application/Runtime/*
+Application/Runtime/*
+Public/admin//Uploads/*
+Public/common/*
