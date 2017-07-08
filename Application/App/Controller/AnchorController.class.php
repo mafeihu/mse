@@ -246,50 +246,5 @@ class AnchorController extends CommonController {
         }
     }
 
-    //我的讲义
-    public function anchor_teach(){
-        $user = checklogin();
-        $page = I('page');$pagesize = I('pagesize');
-        $page = empty($page) ? 0 : $page;
-        $pagesize = empty($pagesize) ? 10 : $pagesize;
-        $page = $page * $pagesize;
-        $data = M('teach')->where(['user_id'=>$user['user_id']])->limit($page, $pagesize)->select();
-        if($data){
-            foreach ($data as $v){
-                $v['teach_img'] = C('IMG_PREFIX') . $v['teach_img'];
-            }
-            success($data);
-        }else{
-            success([]);
-        }
-    }
-    //添加讲义
-    public function add_teach(){
-        $user = checklogin();
-        $teach_title = I('teach_title');$teach_img = I('teach_img');
-        if(empty($teach_img) || empty($teach_title)) error('参数不能为空');
-        $data = array(
-            'teach_title'   =>  $teach_title,
-            'teach_img'     =>  $teach_img,
-            'user_id'       =>  $user['user_id'],
-            'intime'        =>  time()
-        );
-        if(M('teach')->add($data)){
-            success('添加成功');
-        }else{
-            error('添加失败');
-        }
-    }
 
-    //删除讲义
-    public function del_teact(){
-        checklogin();
-        $teach_id = I('teach_id');
-        empty($teach_id) ? error('参数不能为空') : $teach_id=$teach_id;
-        if(M('teach')->delete($teach_id)){
-            success('删除成功');
-        }else{
-            error('删除失败');
-        }
-    }
 }

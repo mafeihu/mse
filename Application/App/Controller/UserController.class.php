@@ -27,8 +27,111 @@ class UserController extends CommonController {
         }else{
             error('修改失败');
         }
+    }
+    /**
+     *@获取直播流
+     **/
+    public function zhibo(){
+        $user = checklogin();
+        $user = M('User')->where(['user_id' =>$user['user_id']])->find();
+        if($user['type'] != 2){
+            error('你不是导师');
+        }
+        $user['username'] ? $name = $user['username'] : $name = "直播间" . rand(100, 999);
+        $options = [
+            'name' => $name,
+            'description' => $name,
+            'maxusers' => 3000,
+            'owner' => $user['hx_username']
+        ];
+        $create = createChatRoom($options);
+        $create['error'] ? error('创建聊天室失败!') : true;
+        $play_address = push_address(); //七牛
+        $result = explode('/vxiu1/',$play_address['url']);
+        $data = [
+            'play_rtmp' =>  $result[0]."/vxiu1/",
+            'php_sdk'=> $result[1],
+            'user_id'=>$user_id,
+            'play_img'=>empty($img) ? '/Public/upload/playimg/593e0637665f4.jpeg' : $img,
+            'title'=>empty($title) ? '哈哈':$title,
+            'teach_id'=>empty($teach_id) ? 1 : $teach_id,
+            'push_flow_address'=>$play_address['url'],
+            'play_address'=>$play_address['url2'],
+            'play_address_m3u8'=>$play_address['m3u8'],
+            'play_address_flv'=>$play_address['flv'],
+            'play_address_rtmp'=>$play_address['rtmp'],
+            'start_time'=>time(),
+            'stream_key'=>$play_address['streamKey'],
+            'live_status'=>1,
+            'live_time'=>0,
+            'room_id'=>$create['data']['id'],
+            'sheng'=>'',
+            'shi'=>'',
+            'intime'=>time()
+        ];
+        $live_id = M('live')->add($data);
+        if($live_id){
+            $user_live = M('Live')->where(['live_id'=>$live_id])->find();
+            success(array("php_sdk"=>$user_live['php_sdk'],"play_rtmp"=>$user_live['play_rtmp'],'live_id'=>$user_live['live_id']));
+        }else{
+            success('获取失败');
+        }
 
     }
+
+
+    //==================================================================================讲义模块开始========================================================
+
+    //我的讲义
+    public function anchor_teach(){
+        $user = checklogin();
+        $page = I('page');$pagesize = I('pagesize');
+        $page = empty($page) ? 0 : $page;
+        $pagesize = empty($pagesize) ? 10 : $pagesize;
+        $page = $page * $pagesize;
+        $data = M('teach')->where(['user_id'=>$user['user_id']])->limit($page, $pagesize)->select();
+        var_dump(C('IMG_PREFIX'));exit;
+        if($data){
+            foreach ($data as $v){
+                $v['teach_img'] = C('IMG_PREFIX') . $v['teach_img'];
+            }
+            success($data);
+        }else{
+            success([]);
+        }
+    }
+    //添加讲义
+    public function add_teach(){
+        $user = checklogin();
+        $teach_title = I('teach_title');$teach_img = I('teach_img');
+        if(empty($teach_img) || empty($teach_title)) error('参数不能为空');
+        $data = array(
+            'teach_title'   =>  $teach_title,
+            'teach_img'     =>  $teach_img,
+            'user_id'       =>  $user['user_id'],
+            'intime'        =>  time()
+        );
+        if(M('teach')->add($data)){
+            success('添加成功');
+        }else{
+            error('添加失败');
+        }
+    }
+
+    //删除讲义
+    public function del_teact(){
+        checklogin();
+        $teach_id = I('teach_id');
+        empty($teach_id) ? error('参数不能为空') : $teach_id=$teach_id;
+        if(M('teach')->delete($teach_id)){
+            success('删除成功');
+        }else{
+            error('删除失败');
+        }
+    }
+//==================================================================================讲义模块结束========================================================
+
+
 
     //我关注的人
     public function user_attention(){
@@ -97,7 +200,6 @@ class UserController extends CommonController {
             success([]);
         }
     }
-
     //问题详情
     public function quiz_particulars(){
         checklogin();

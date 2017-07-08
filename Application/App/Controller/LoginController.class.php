@@ -20,14 +20,13 @@ class LoginController extends CommonController {
 		$code = cookie('url');
 		$code = urldecode($code);
 		$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->system['appid'] . "&secret=" . $this->system['appsecret'] . "&code=" . I("code") . "&grant_type=authorization_code";
-		$result = curl_get($url);
+		$result = $this->curl_get($url);
 		$arr = json_decode($result, true);
-
 		$url1 = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=" . $this->system['appid'] . "&grant_type=refresh_token&refresh_token=" . $arr['refresh_token'];
-		$arr1 = curl_get($url1);
+		$arr1 = $this->curl_get($url1);
 		$arr1 = json_decode($arr1, true);
 		$url2 = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $arr1['access_token'] . "&openid=" . $this->system['appid'] . "&lang=zh_CN";
-		$arr2 = curl_get($url2);
+		$arr2 = $this->curl_get($url2);
 		$arr2 = json_decode($arr2,true);
 		$openid = $arr['openid'];
 		if (!empty($openid)) {
@@ -164,11 +163,11 @@ class LoginController extends CommonController {
 		    $mobile_code = random(6, 1);
 		    $_SESSION['mobile_code'] = $mobile_code;
 		    if ($type==1){
-		    	if ($date){
-		    	   error('已注册！');
-		    	}else {
-		    		$content = "您的验证码：".$mobile_code.",有效时间:".$time."分钟,请不要轻易把验证码泄露给其他人。【梅 塞 尔】";
-		    	}
+		        $user = M("User")->where(['phone'=>$mobile])->find();
+		        if(!$user){
+		            error("非会员无法进行此操作！！");
+                }
+                $content = "您的验证码：".$mobile_code.",有效时间:".$time."分钟,请不要轻易把验证码泄露给其他人。【梅 塞 尔】";
 		    }elseif ($type==2){
 		    	if ($date){
 		    	    $content = "您修改密码的短信验证码为：".$mobile_code."，请妥善保存。【梅 塞 尔】";
@@ -225,59 +224,66 @@ class LoginController extends CommonController {
     public function message_login(){
         $phone = I('phone');  $yzm = I('yzm'); $log = I('log');  $lag = I('lag');
         (empty($phone) || !preg_match('#^13[\d]{9}$|14^[0-9]\d{8}|^15[0-9]\d{8}$|^18[0-9]\d{8}|^17[0-9]\d{8}$#', $phone) ||empty($yzm)) ? error('参数错误!') : true;
-        $code = M('Mobile_sms')->where(['phone'=>$phone,'state'=>1])->order('intime desc')->limit(1)->find();
+        $code = M('Mobile_sms')->where(['phone'=>$phone,'state'=>1,'code'=>$yzm])->order('intime desc')->limit(1)->find();
         if ($code) {
             $time = M('System')->getFieldById(1,'code_volidity');
             if (time()-$code['intime']>($time*60)){
                 error('验证码已失效!');
             }
-            if ($code['code']==$yzm){
-                $user = M('User')->where(array('phone'=>$phone))->find();
-                if ($user){
-                    //登陆
-                    if($user['is_del']==2){
-                        error('账号被限制,请联系平台!');
-                    }else{
-                        $user['img'] = C('IMG_PREFIX').$user['img'];
-                        $gwd = $lag.','.$log;
-                        $baidu_apikey = M('System')->getFieldById(1,'baidu_apikey');
-                        $file_contents = file_get_contents('http://api.map.baidu.com/geocoder/v2/?ak='.$baidu_apikey.'&location='.$gwd.'&output=json');
-                        $rs = json_decode($file_contents,true);
-                        M('Login_hostroy')->add(['user_id'=>$user['user_id'],'log'=>$log,'lag'=>$lag,'area'=>$rs['result']['addressComponent']['city'],'address'=>$rs['result']['formatted_address'],'intime'=>time(),'date'=>date('Y-m-d',time())]);
-                        success($user);
-                    }
-                }else{
-                    //注册
-                    $chars = "abcdefghijklmnopqrstuvwxyz123456789";
-                    mt_srand(10000000*(double)microtime());
-                    for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < 12; $i++){
-                        $str .= $chars[mt_rand(0, $lc)];
-                    }
-                    $photo = "/Public/admin/touxiang.png";
-                    $hx_password="123456";
-                    $date = [
-                        'token'=>uniqid(),
-                        'phone'=>$phone,
-                        'username'=>GetfourStr(6),
-                        'img'=>$photo,
-                        'ID'=>get_number(),
-                        'intime'=>time(),
-                        'alias'=>$str,
-                        'hx_username'=>$str,
-                        'hx_password'=>$hx_password,
-                    ];
-                    if ($id=M('User')->add($date)){
-                        huanxin_zhuce($str,$hx_password); //环信注册
-                        $us = M('User')->where(['user_id'=>$id])->find();
-                        $us['img'] = C('IMG_PREFIX').$us['img'];
-                        success($us);
-                    }else {
-                        error('失败!');
-                    }
-                }
+            //老师登录进行实名认证
+            $user_info = M("user")->where(['phone'=> $phone])->find();
+            if($user_info){
+                success($user_info);
+            }else{
+                error('非会员无法登录');
             }
+//            if ($code['code']==$yzm){
+//                $user = M('User')->where(array('phone'=>$phone))->find();
+//                if ($user){
+//                    //登陆
+//                    if($user['is_del']==2){
+//                        error('账号被限制,请联系平台!');
+//                    }else{
+//                        $user['img'] = C('IMG_PREFIX').$user['img'];
+//                        $gwd = $lag.','.$log;
+//                        $baidu_apikey = M('System')->getFieldById(1,'baidu_apikey');
+//                        $file_contents = file_get_contents('http://api.map.baidu.com/geocoder/v2/?ak='.$baidu_apikey.'&location='.$gwd.'&output=json');
+//                        $rs = json_decode($file_contents,true);
+//                        M('Login_hostroy')->add(['user_id'=>$user['user_id'],'log'=>$log,'lag'=>$lag,'area'=>$rs['result']['addressComponent']['city'],'address'=>$rs['result']['formatted_address'],'intime'=>time(),'date'=>date('Y-m-d',time())]);
+//                        success($user);
+//                    }
+//                }else{
+//                    //注册
+//                    $chars = "abcdefghijklmnopqrstuvwxyz123456789";
+//                    mt_srand(10000000*(double)microtime());
+//                    for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < 12; $i++){
+//                        $str .= $chars[mt_rand(0, $lc)];
+//                    }
+//                    $photo = "/Public/admin/touxiang.png";
+//                    $hx_password="123456";
+//                    $date = [
+//                        'token'=>uniqid(),
+//                        'phone'=>$phone,
+//                        'username'=>GetfourStr(6),
+//                        'img'=>$photo,
+//                        'ID'=>get_number(),
+//                        'intime'=>time(),
+//                        'alias'=>$str,
+//                        'hx_username'=>$str,
+//                        'hx_password'=>$hx_password,
+//                    ];
+//                    if ($id=M('User')->add($date)){
+//                        huanxin_zhuce($str,$hx_password); //环信注册
+//                        $us = M('User')->where(['user_id'=>$id])->find();
+//                        $us['img'] = C('IMG_PREFIX').$us['img'];
+//                        success($us);
+//                    }else {
+//                        error('失败!');
+//                    }
+//                }
+//            }
         }else{
-            error('验证码不一致!');
+            error('验证码不正确!');
         }
     }
 
@@ -452,5 +458,24 @@ class LoginController extends CommonController {
         } else {
             exit($Upload->getError());
         }
+    }
+    /**
+     * @param $url
+     * @return mixed
+     */
+    private function curl_get($url)
+    {
+        $ch = curl_init();
+        //设置超时
+        curl_setopt($ch, CURLOP_TIMEOUT, "60");
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        //运行curl，结果以jason形式返回
+        $res = curl_exec($ch);
+        curl_close($ch);
+        return $res;
     }
 }
