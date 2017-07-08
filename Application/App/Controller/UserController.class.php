@@ -119,7 +119,7 @@ class UserController extends CommonController {
     }
 
     //删除讲义
-    public function del_teact(){
+    public function del_teacth(){
         checklogin();
         $teach_id = I('teach_id');
         empty($teach_id) ? error('参数不能为空') : $teach_id=$teach_id;
@@ -129,6 +129,28 @@ class UserController extends CommonController {
             error('删除失败');
         }
     }
+
+    //添加讲义及背景图
+    public function open_live(){
+        $user = checklogin();
+        $teach_id = I("teach_id");
+        $teach_content = I("teach_content");
+        $teach_map = I("teach_map");
+        if(empty($teach_id) || empty($teach_content) || empty($teach_map)){
+            error("参数有误");
+        }
+        $data['teach_content'] = $teach_content;
+        $data['teach_map'] = $teach_map;
+        $teach = M("teach")->where(['teach_id'=> $teach_id,'user_id'=>$user['user_id']])->save($data);
+        if($teach){
+            $teach_info = M("teach")->where(["teach_id" => $teach_id])->find();
+            success($teach_info);
+        }else{
+            error("保存失败");
+        }
+    }
+
+
 //==================================================================================讲义模块结束========================================================
 
 
