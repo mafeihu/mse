@@ -614,7 +614,7 @@ class BaseController extends CommonController {
      * @公开课添加修改页面展示
      */
     public function course_toadd(){
-      $course_id = empty(I("course_id")) ? false : I("course_id");
+      //$course_id = empty(I("course_id")) ? false : I("course_id");
       if($course_id){
           $course_res = M("public_course")->where(['id' =>$course_id] )->find();
           if($course_res){
@@ -632,15 +632,15 @@ class BaseController extends CommonController {
     public function course_doadd(){
         if( !M()->autoCheckToken($_POST) ) $this->error('禁止站外提交！');
         unset($_POST['__hash__']);
-        $data['course_title'] = empty(I("course_title")) ?  false : I("course_title");
-        $data['course_cauthor']  = empty(I('course_cauthor')) ? false : I("course_cauthor");
-        $data['course_description'] = empty(I('course_description')) ? false : I("course_description");
+        $data['course_title'] = I("course_title");
+        $data['course_cauthor']  =  I("course_cauthor");
+        $data['course_description'] =  I("course_description");
         $data['intime'] = time();
-        if( in_array(false, $data)){
+        if( in_array("", $data)){
             error("参数有误，请重完整填写信息");
         }
         $course_id = I("course_id");
-        $course_img = empty(I('course_img')) ?  false : I("course_img");
+       $course_img = I("course_img");
         if(empty($course_id)){
             //商品添加
             if(!$course_img){
